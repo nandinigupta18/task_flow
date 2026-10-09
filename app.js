@@ -16,9 +16,34 @@ taskForm.addEventListener("submit", function (event) {
   }
 
   const listItem = document.createElement("li");
-  listItem.textContent = title;
+  const taskText = document.createElement("span");
+  const status = document.createElement("span");
+  const toggleButton = document.createElement("button");
 
+  taskText.textContent = title;
+  status.textContent = "Pending";
+  status.className = "task-status";
+
+  toggleButton.textContent = "Mark Complete";
+  toggleButton.type = "button";
+
+  toggleButton.addEventListener("click", function () {
+    const isComplete = status.textContent === "Complete";
+
+    status.textContent = isComplete ? "Pending" : "Complete";
+    toggleButton.textContent = isComplete
+      ? "Mark Complete"
+      : "Mark Pending";
+
+    taskText.style.textDecoration = isComplete
+      ? "none"
+      : "line-through";
+  });
+
+  listItem.append(taskText, document.createTextNode(" — "), status);
+  listItem.appendChild(toggleButton);
   taskList.appendChild(listItem);
+
   taskInput.value = "";
   message.textContent = "";
   taskInput.focus();
